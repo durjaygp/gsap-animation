@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP ScrollTrigger + SplitText · Cinematic Portfolio</title>
+    <!-- Tailwind via CDN (lightweight) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP + ScrollTrigger & SplitText (corrected SplitText URL) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+    <!-- extra smooth font / base -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background: #0b0c0e; }
+        .section { min-height: 100vh; will-change: transform; }
+        .overflow-hidden { overflow: hidden; }
+        /* split text initial state (hidden) – will be animated by gsap */
+        .char, .word { opacity: 0; }
+        .img-reveal { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
+        .portfolio-grid img { transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.3, 1); }
+    </style>
+</head>
+<body class="text-white antialiased">
+
+    <!-- main container -->
+    <main class="relative">
+
+        <!-- hero section -->
+        <section class="section flex items-center justify-center px-4 bg-[#0e1015] relative overflow-hidden">
+            <div class="max-w-5xl mx-auto text-center">
+                <h1 id="hero-title" class="text-6xl md:text-8xl font-bold tracking-tight mb-6 text-white/90">
+                    <span class="block">ELARA VAUX</span>
+                    <span class="block text-3xl md:text-4xl font-light text-amber-400/80 mt-2">cinematic storyteller</span>
+                </h1>
+                <div id="hero-sub" class="text-xl md:text-2xl text-white/50 max-w-2xl mx-auto">
+                    <span>director · visual artist · time shaper</span>
+                </div>
+                <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/30 text-sm flex flex-col items-center gap-1">
+                    <span>scroll to experience</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 5v14M8 15l4 4 4-4" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- reel section -->
+        <section class="section flex items-center px-6 py-24 bg-[#111316]">
+            <div class="max-w-7xl mx-auto w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <h2 id="reel-headline" class="text-5xl md:text-6xl font-bold leading-[1.1] text-white">
+                            <span class="block">CINEMATIC</span>
+                            <span class="block text-amber-400">SCROLL</span>
+                            <span class="block text-2xl md:text-3xl font-light text-white/70 mt-4">every frame tells a story</span>
+                        </h2>
+                        <div class="mt-8 text-white/40 text-lg max-w-md reveal-text">
+                            <p>I craft digital narratives that move with you — each scroll a deliberate camera motion.</p>
+                        </div>
+                    </div>
+                    <div class="relative flex justify-end">
+                        <div class="w-full max-w-md aspect-[4/5] bg-zinc-800 overflow-hidden shadow-2xl">
+                            <img id="reveal-img" src="https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?q=80&w=987&auto=format&fit=crop" 
+                                 alt="cinematic landscape" class="w-full h-full object-cover img-reveal" style="clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- featured work section -->
+        <section class="section flex flex-col justify-center px-6 py-28 bg-[#0b0d10]">
+            <div class="max-w-7xl mx-auto w-full">
+                <h3 id="work-title" class="text-4xl md:text-5xl font-light mb-4 text-white/90">
+                    <span class="font-bold text-amber-400">·</span> selected works
+                </h3>
+                <div class="h-0.5 w-24 bg-amber-400/50 mb-16"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- card 1 -->
+                    <div class="group portfolio-card">
+                        <div class="aspect-[3/4] bg-zinc-900 overflow-hidden rounded-sm shadow-xl">
+                            <img src="https://images.unsplash.com/photo-1536240474400-95dad987e88a?q=80&w=1064&auto=format&fit=crop" 
+                                 alt="project 1" class="w-full h-full object-cover group-hover:scale-105 duration-700">
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="card-title text-2xl font-medium">「 ECLIPSE 」</h4>
+                            <p class="text-white/40 text-sm">short film, 2025</p>
+                        </div>
+                    </div>
+                    <!-- card 2 -->
+                    <div class="group portfolio-card">
+                        <div class="aspect-[3/4] bg-zinc-900 overflow-hidden rounded-sm shadow-xl">
+                            <img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=987&auto=format&fit=crop" 
+                                 alt="project 2" class="w-full h-full object-cover group-hover:scale-105 duration-700">
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="card-title text-2xl font-medium">「 VELVET 」</h4>
+                            <p class="text-white/40 text-sm">music video, 2024</p>
+                        </div>
+                    </div>
+                    <!-- card 3 -->
+                    <div class="group portfolio-card">
+                        <div class="aspect-[3/4] bg-zinc-900 overflow-hidden rounded-sm shadow-xl">
+                            <img src="https://images.unsplash.com/photo-1461151304267-38535e780c79?q=80&w=1033&auto=format&fit=crop" 
+                                 alt="project 3" class="w-full h-full object-cover group-hover:scale-105 duration-700">
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="card-title text-2xl font-medium">「 CHRONOS 」</h4>
+                            <p class="text-white/40 text-sm">interactive installation</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- tagline split -->
+                <div id="work-tagline" class="mt-20 text-right text-2xl md:text-3xl text-white/30 italic">
+                    <span>+</span> moving pictures <span>·</span> moving you
+                </div>
+            </div>
+        </section>
+
+        <!-- contact section -->
+        <section class="section flex flex-col items-center justify-center px-6 py-32 bg-[#090a0c] relative">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 id="contact-line" class="text-4xl md:text-6xl font-bold text-white/80 leading-tight">
+                    <span class="block">let's create</span>
+                    <span class="block text-amber-400">something timeless</span>
+                </h2>
+                <div id="contact-details" class="mt-12 text-white/30 text-lg tracking-widest flex flex-wrap gap-8 justify-center">
+                    <span>hello@elara.portfolio</span>
+                    <span>•</span>
+                    <span>instagram / reel</span>
+                    <span>•</span>
+                    <span>vimeo</span>
+                </div>
+                <div class="absolute bottom-6 left-0 w-full text-xs text-white/20 text-center">
+                    <span>cinematic scroll experience · gsap + splittext</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        (function() {
+            gsap.registerPlugin(ScrollTrigger, SplitText);
+
+            // Store references to SplitText instances for cleanup
+            let splitInstances = [];
+
+            // Function to revert all existing SplitText instances
+            function revertSplitTexts() {
+                splitInstances.forEach(instance => {
+                    if (instance && instance.revert) instance.revert();
+                });
+                splitInstances = [];
+            }
+
+            // Main animation initializer
+            function initAnimations() {
+                // Kill all existing ScrollTriggers
+                ScrollTrigger.getAll().forEach(st => st.kill());
+
+                // Revert previous splits
+                revertSplitTexts();
+
+                // --- 1. Hero Title (chars) ---
+                const heroTitle = document.getElementById('hero-title');
+                if (heroTitle) {
+                    const splitTitle = new SplitText(heroTitle, { type: 'lines,chars' });
+                    splitInstances.push(splitTitle);
+                    gsap.set(splitTitle.chars, { opacity: 0, y: 40 });
+                    
+                    gsap.timeline({
+                        scrollTrigger: {
+                            trigger: heroTitle,
+                            start: 'top 80%',
+                            end: 'bottom 40%',
+                            scrub: 1.2,
+                            toggleActions: 'play none none reverse'
+                        }
+                    }).to(splitTitle.chars, {
+                        opacity: 1,
+                        y: 0,
+                        stagger: 0.02,
+                        duration: 1.2,
+                        ease: 'power2.out'
+                    });
+                }
+
+                // --- 2. Hero Sub (words) ---
+                const heroSub = document.getElementById('hero-sub');
+                if (heroSub) {
+                    const splitSub = new SplitText(heroSub, { type: 'words' });
+                    splitInstances.push(splitSub);
+                    gsap.set(splitSub.words, { opacity: 0, x: -15 });
+                    ScrollTrigger.create({
+                        trigger: heroSub,
+                        start: 'top 85%',
+                        end: 'bottom 30%',
+                        scrub: 1,
+                        animation: gsap.to(splitSub.words, {
+                            opacity: 1,
+                            x: 0,
+                            stagger: 0.03,
+                            ease: 'sine.inOut'
+                        })
+                    });
+                }
+
+                // --- 3. Reel Headline (words) ---
+                const reelHeadline = document.getElementById('reel-headline');
+                if (reelHeadline) {
+                    const splitReel = new SplitText(reelHeadline, { type: 'words' });
+                    splitInstances.push(splitReel);
+                    gsap.set(splitReel.words, { opacity: 0, y: 30, rotation: 2 });
+                    ScrollTrigger.create({
+                        trigger: reelHeadline,
+                        start: 'top 70%',
+                        end: 'bottom 30%',
+                        scrub: 1.4,
+                        animation: gsap.to(splitReel.words, {
+                            opacity: 1,
+                            y: 0,
+                            rotation: 0,
+                            stagger: 0.03,
+                            ease: 'back.out(1.2)'
+                        })
+                    });
+                }
+
+                // --- 4. Clip-path image reveal (no split) ---
+                const revealImg = document.getElementById('reveal-img');
+                if (revealImg) {
+                    ScrollTrigger.create({
+                        trigger: revealImg,
+                        start: 'top 80%',
+                        end: 'bottom 20%',
+                        scrub: 1.5,
+                        onUpdate: (self) => {
+                            const prog = self.progress;
+                            const rightEdge = prog * 100;
+                            revealImg.style.clipPath = `polygon(0% 0%, ${rightEdge}% 0%, ${rightEdge}% 100%, 0% 100%)`;
+                        }
+                    });
+                }
+
+                // --- 5. Portfolio card titles (chars) ---
+                const cardTitles = document.querySelectorAll('.card-title');
+                cardTitles.forEach((title) => {
+                    const splitCard = new SplitText(title, { type: 'chars' });
+                    splitInstances.push(splitCard);
+                    gsap.set(splitCard.chars, { opacity: 0, y: 20, color: '#aaa' });
+                    
+                    ScrollTrigger.create({
+                        trigger: title,
+                        start: 'top 90%',
+                        end: 'bottom 20%',
+                        scrub: 1,
+                        animation: gsap.to(splitCard.chars, {
+                            opacity: 1,
+                            y: 0,
+                            color: '#ffffff',
+                            stagger: 0.01,
+                            duration: 1.2,
+                            ease: 'power3.out'
+                        })
+                    });
+                });
+
+                // --- 6. Work tagline (words) ---
+                const tagline = document.getElementById('work-tagline');
+                if (tagline) {
+                    const splitTag = new SplitText(tagline, { type: 'words' });
+                    splitInstances.push(splitTag);
+                    gsap.set(splitTag.words, { opacity: 0.2, scale: 0.9, filter: 'blur(4px)' });
+                    ScrollTrigger.create({
+                        trigger: tagline,
+                        start: 'top 85%',
+                        end: 'bottom 20%',
+                        scrub: 1.2,
+                        animation: gsap.to(splitTag.words, {
+                            opacity: 1,
+                            scale: 1,
+                            filter: 'blur(0px)',
+                            stagger: 0.04,
+                            ease: 'power2.inOut'
+                        })
+                    });
+                }
+
+                // --- 7. Contact line (lines) ---
+                const contactLine = document.getElementById('contact-line');
+                if (contactLine) {
+                    const splitContact = new SplitText(contactLine, { type: 'lines' });
+                    splitInstances.push(splitContact);
+                    gsap.set(splitContact.lines, { opacity: 0, y: 60, rotationX: -10 });
+                    ScrollTrigger.create({
+                        trigger: contactLine,
+                        start: 'top 80%',
+                        end: 'bottom 30%',
+                        scrub: 1.6,
+                        animation: gsap.to(splitContact.lines, {
+                            opacity: 1,
+                            y: 0,
+                            rotationX: 0,
+                            stagger: 0.2,
+                            ease: 'power4.out'
+                        })
+                    });
+                }
+
+                // --- 8. Contact details (words) ---
+                const details = document.getElementById('contact-details');
+                if (details) {
+                    const splitDetails = new SplitText(details, { type: 'words' });
+                    splitInstances.push(splitDetails);
+                    gsap.set(splitDetails.words, { opacity: 0, y: 10 });
+                    ScrollTrigger.create({
+                        trigger: details,
+                        start: 'top 85%',
+                        end: '+=200',
+                        scrub: 1,
+                        animation: gsap.to(splitDetails.words, {
+                            opacity: 1,
+                            y: 0,
+                            stagger: 0.02,
+                            ease: 'sine'
+                        })
+                    });
+                }
+
+                // Optional parallax background
+                gsap.to('.bg-\\[\\#0e1015\\]', {
+                    scrollTrigger: {
+                        trigger: '.bg-\\[\\#0e1015\\]',
+                        start: 'top top',
+                        end: 'bottom top',
+                        scrub: 1,
+                    },
+                    backgroundPositionY: '30%',
+                    ease: 'none'
+                });
+
+                ScrollTrigger.refresh();
+            }
+
+            // Initialize on load
+            window.addEventListener('load', initAnimations);
+
+            // Responsive: re-init on resize with debounce
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    initAnimations();
+                }, 200); // debounce for performance
+            });
+        })();
+    </script>
+
+    <style>
+        .char, .word { opacity: 0; will-change: opacity, transform; }
+        #reveal-img { transition: clip-path 0.1s linear; }
+        .portfolio-card img { transition: transform 1s cubic-bezier(0.2, 0.6, 0.3, 1); }
+    </style>
+</body>
+</html>
